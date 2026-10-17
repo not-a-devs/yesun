@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fa">
+  <meta name="description" content="다음 수업까지, 이동할 시간이 충분할까? 수업 사이 가상 건물 이동 시간을 확인하는 나만의 시간표.">
+  <title>연강 이동 시간 점검</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="./js/data.js" defer></script>
+  <script src="./js/calculator.js" defer></script>
+  <script src="./js/storage.js" defer></script>
+  <script src="./js/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#home?day=mon">
+        <span class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 17V9a3 3 0 0 1 6 0v6a3 3 0 0 0 6 0V7m-3 3 3-3 3 3"/></svg></span>
+        <span>연강 이동 시간 점검<span class="brand-sub">조금 더 여유로운 캠퍼스 생활</span></span>
+      </a>
+      <nav class="main-nav" aria-label="주요 화면">
+        <a id="nav-home" href="#home?day=mon">시간표</a>
+        <a id="nav-check" href="#check?day=mon">이동 점검</a>
+      </nav>
+      <span class="save-state" id="save-state"><span aria-hidden="true"></span>이 브라우저에 저장됨</span>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <div id="storage-notice" class="notice" role="alert" hidden></div>
+
+    <!-- 세 개의 기능 화면. 추가와 수정은 같은 폼을 공유합니다. -->
+    <section id="screen-home" class="screen" aria-labelledby="home-title">
+      <div class="page-heading">
+        <div><p class="eyebrow"><span></span> MY CAMPUS SCHEDULE</p><h1 id="home-title" tabindex="-1">다음 수업까지,<br>이동할 시간이 충분할까?</h1><p class="heading-copy">시간표에 이동 시간까지 더해, 하루를 여유롭게 준비하세요.</p></div>
+        <a class="button primary heading-action" id="home-add" href="#class/new?day=mon"><span aria-hidden="true">＋</span> 수업 추가</a>
+      </div>
+      <div class="home-grid">
+        <aside class="home-aside" aria-label="이동 요약">
+          <div id="tightest-summary"></div>
+          <div class="campus-card">
+            <div class="card-heading"><h2>작은 캠퍼스 안내</h2><span class="tiny-label">VIRTUAL CAMPUS</span></div>
+            <svg class="campus-map" viewBox="0 0 280 156" role="img" aria-label="가상 A관, B관, C관, D관을 연결한 캠퍼스 안내 그림. 실제 지도와 무관합니다.">
+              <rect x="6" y="6" width="268" height="144" rx="20" fill="#f4f7f5"/>
+              <path d="M71 46H209V112H71ZM71 46 209 112M209 46 71 112" stroke="#d5dfdc" stroke-width="2" stroke-dasharray="4 5" fill="none"/>
+              <rect x="113" y="57" width="54" height="45" rx="15" fill="#e5eee5"/>
+              <path d="m137 70-6 10h5l-4 7h16l-4-7h5l-6-10Z" fill="#8ca88d"/><path d="M140 87v5" stroke="#8ca88d" stroke-width="2"/>
+              <g fill="#fff" stroke="#dce4e7"><rect x="46" y="24" width="50" height="40" rx="10"/><rect x="184" y="24" width="50" height="40" rx="10"/><rect x="46" y="94" width="50" height="40" rx="10"/><rect x="184" y="94" width="50" height="40" rx="10"/></g>
+              <g fill="#476b98" font-size="13" font-weight="700" text-anchor="middle"><text x="71" y="49">A관</text><text x="209" y="49">B관</text><text x="71" y="119">C관</text><text x="209" y="119">D관</text></g>
+            </svg>
+            <p>가상의 건물 및 예상 이동 시간입니다</p>
+          </div>
+          <p class="local-note"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3M5 10h14v11H5Z"/></svg>나의 시간표는 이 브라우저에만 저장돼요.</p>
+        </aside>
+        <div class="schedule-panel">
+          <div class="section-heading"><h2 id="schedule-title" tabindex="-1">나의 시간표 <span id="class-count"></span></h2><span class="quiet-label">월요일부터 금요일까지</span></div>
+          <div id="home-days" class="day-picker" role="group" aria-label="시간표 요일 선택"></div>
+          <div class="schedule-meta"><h3 id="schedule-day"></h3><span id="schedule-range"></span></div>
+          <div id="class-list"></div>
+          <a class="add-outline" id="list-add" href="#class/new?day=mon"><span aria-hidden="true">＋</span> 수업 추가하기</a>
+          <a class="detail-link" id="home-check" href="#check?day=mon">이동 점검 자세히 보기 <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-class" class="screen form-screen" aria-labelledby="form-title" hidden>
+      <a id="form-back" class="back-link" href="#home?day=mon"><span aria-hidden="true">←</span> 시간표로 돌아가기</a>
+      <div class="page-heading compact"><div><p class="eyebrow">MAKE ROOM FOR YOUR DAY</p><h1 id="form-title" tabindex="-1">새로운 수업 추가</h1><p class="heading-copy">수업 정보를 입력하면 이동 시간을 함께 확인할 수 있어요.</p></div><span class="page-number" aria-hidden="true">＋</span></div>
+      <div class="form-grid">
+        <form id="class-form" class="form-card" novalidate>
+          <p class="form-intro">수업 정보 <span>모든 항목을 입력해 주세요.</span></p>
+          <div id="form-message" class="notice" role="alert" hidden></div>
+          <div class="field"><label for="class-name">수업명</label><input id="class-name" name="name" type="text" placeholder="예: 자료구조" maxlength="40" required autocomplete="off" aria-describedby="error-name"><p id="error-name" class="field-error" hidden></p></div>
+          <fieldset class="field weekday-field"><legend>요일</legend><div class="weekday-options" id="form-days"></div><p id="error-day" class="field-error" hidden></p></fieldset>
+          <div class="time-fields">
+            <div class="field"><label for="class-start">시작 시각</label><input id="class-start" name="start" type="time" step="60" required aria-describedby="error-start"><p id="error-start" class="field-error" hidden></p></div>
+            <span class="time-separator" aria-hidden="true">—</span>
+            <div class="field"><label for="class-end">종료 시각</label><input id="class-end" name="end" type="time" step="60" required aria-describedby="error-end"><p id="error-end" class="field-error" hidden></p></div>
+          </div>
+          <div class="field"><label for="class-building">건물</label><select id="class-building" name="building" required aria-describedby="error-building"><option value="">수업이 열리는 건물을 선택하세요</option><option value="A">A관</option><option value="B">B관</option><option value="C">C관</option><option value="D">D관</option></select><p id="error-building" class="field-error" hidden></p></div>
+          <div class="form-actions"><a id="form-cancel" class="button secondary" href="#home?day=mon">취소</a><button id="save-class" class="button primary" type="submit">수업 저장하기 <span aria-hidden="true">↗</span></button></div>
+        </form>
+        <aside class="form-aside">
+          <div class="tip-card"><span class="tip-icon" aria-hidden="true">i</span><h2>이동 시간도 시간표의 일부니까</h2><p>수업을 저장하면 앞뒤 수업의 건물을 비교해 이동 여유 시간을 자동으로 계산해요.</p></div>
+          <div class="matrix-card"><div class="card-heading"><h2>건물 간 이동 시간</h2><span class="tiny-label">단위: 분</span></div><div id="walk-matrix"></div><p class="fiction-note">가상의 건물 및 예상 이동 시간입니다</p></div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="screen-check" class="screen" aria-labelledby="check-title" hidden>
+      <a id="check-back" class="back-link" href="#home?day=mon"><span aria-hidden="true">←</span> 시간표로 돌아가기</a>
+      <div class="page-heading compact"><div><p class="eyebrow">A LITTLE TIME TO GET THERE</p><h1 id="check-title" tabindex="-1">수업 사이, 이동 점검</h1><p class="heading-copy">수업이 끝난 순간부터 다음 수업이 시작될 때까지.</p></div><span class="check-heading-icon" aria-hidden="true">↗</span></div>
+      <div id="check-days" class="day-picker check-day-picker" role="group" aria-label="이동 점검 요일 선택"></div>
+      <div id="check-overview"></div>
+      <div class="section-heading detail-section-heading"><h2 id="check-day-title"></h2><div class="legend"><span><i class="dot blue"></i>이동 가능 / 여유 없음</span><span><i class="dot coral"></i>부족 / 중복</span></div></div>
+      <div id="segment-list" class="segment-list"></div>
+      <div class="calculation-note"><span class="tip-icon" aria-hidden="true">i</span><div><strong>여유 시간은 이렇게 계산해요</strong><p>수업 사이 공백 시간 − 건물 간 예상 이동 시간 = 실제 여유 시간</p><p>가상의 건물 및 예상 이동 시간입니다</p></div></div>
+    </section>
+  </main>
+  <footer class="site-footer"><span>수업과 수업 사이, 조금 더 여유롭게.</span><span>가상의 건물 및 예상 이동 시간입니다</span></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+  <noscript><div class="noscript">이 앱은 JavaScript가 필요해요. 브라우저에서 JavaScript를 활성화해 주세요.</div></noscript>
+</body>
+</html>
