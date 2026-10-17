@@ -74,7 +74,7 @@ python3 -m http.server 4173 --bind 127.0.0.1
 ## 구조와 구현 방식
 
 ```text
-campus-transfer-check/
+yeson/
 ├── index.html                 # 세 화면과 공통 레이아웃
 ├── favicon.svg                # 로컬 아이콘
 ├── css/style.css              # 상태별 스타일과 반응형 레이아웃
@@ -113,7 +113,7 @@ campus-transfer-check/
 | C관 | 8 | 7 | 0 | 6 |
 | D관 | 15 | 13 | 6 | 0 |
 
-단위는 분이며 양방향 값이 같습니다. 실제 지도, 보행 속도, 교통 상황은 반영하지 않습니다.
+단위는 분이며 양방향 값이 같습니다. 단 실제 지도, 보행 속도, 교통 상황은 반영하지 않습니다.
 
 ### 계산
 
@@ -168,7 +168,6 @@ campus-transfer-check/
 5. 실제 Chrome에서 모바일·PC 화면과 키보드 이동을 확인했습니다. 본문 바로가기의 해시 충돌, 보조 문구 대비, 접근 가능한 버튼 이름을 수정하고 재검증했습니다.
 6. 공개 배포용 하위 경로를 로컬에서 재현해 정적 자원과 기능을 확인하고 제출 문서를 작성했습니다.
 
-실제 개인정보와 실제 대학 자료는 사용하지 않았습니다. 참고용 시안 이미지가 첨부되지 않아 요청에 기재된 디자인 방향을 기준으로 제작했습니다.
 
 ## 테스트 결과
 
@@ -207,16 +206,12 @@ PLAYWRIGHT_BASE_URL=http://127.0.0.1:4174/campus-transfer-check/ npm run test:br
 
 ## GitHub Pages 배포 방법
 
-현재 원격 저장소 생성, Push, 공개 배포는 실행하지 않았습니다. 외부 작업은 사용자 확인 후 진행합니다.
-
 1. 사용자 확인 후 공개 GitHub 저장소를 준비합니다.
 2. 프로젝트 루트의 `index.html`, `css/`, `js/`, `favicon.svg`, `.nojekyll`과 제출 문서를 `main` 브랜치 루트에 올립니다. 테스트 코드도 함께 올릴 수 있지만 `node_modules/`, `test-results/`는 제외합니다.
 3. 저장소의 **Settings → Pages → Build and deployment**에서 **Deploy from a branch**를 선택합니다.
 4. 브랜치를 **main**, 폴더를 **/(root)**로 선택하고 저장합니다. 빌드 명령이나 별도 워크플로는 필요하지 않습니다.
 5. GitHub에 표시된 배포 완료 주소를 열어 수업 저장·새로 고침을 확인합니다.
-6. 실제 공개 앱 주소와 공개 저장소 주소를 `SUBMISSION.md`의 빈칸에 기입합니다.
 
 모든 자원 경로가 상대 경로이며 화면 전환은 해시를 사용합니다. 저장소 이름이 포함된 Pages 하위 경로에서도 새로 고침과 화면 이동을 지원합니다.
 
 공식 참고: [GitHub Pages 사이트 만들기](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site), [Playwright 접근성 검사](https://playwright.dev/docs/accessibility-testing).
-# yesun
