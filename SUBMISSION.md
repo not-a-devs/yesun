@@ -30,5 +30,5 @@ HTML5, CSS3, Vanilla JavaScript ES6+, localStorage. GitHub Pages에 빌드 없�
 
 ## 공개 주소
 
-- 공개 앱 주소: **[실제 배포 후 기입]**
-- 공개 GitHub 저장소 주소: **[실제 저장소 생성 후 기입]**
+- 공개 앱 주소: **https://not-a-devs.github.io/yesun/#home**
+- 공개 GitHub 저장소 주소: **https://github.com/not-a-devs/yesun**
